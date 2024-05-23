@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Submission</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .btn-primary {
+            background-color: #4CAF50;
+        }
+        .btn-secondary {
+            background-color: #008CBA;
+        }
+        .btn-primary:hover, .btn-secondary:hover {
+            opacity: 0.8;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const reviewLinkBtn = document.getElementById("review-link-btn");
+            const salesmanId = reviewLinkBtn.getAttribute("data-salesman-id");
+
+            reviewLinkBtn.addEventListener("click", function() {
+                setTimeout(() => {
+                    checkReviewIncrement(salesmanId);
+                }, 12000);
+            });
+        });
+
+        function checkReviewIncrement(salesmanId) {
+            fetch(`/check_review_increment/${salesmanId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.status === 'success') {
+                    document.getElementById('review-count').innerText = data.new_count;
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center mb-4">Review  for Salesman {{ salesman_id }}</h1>
+        <div class="flex justify-center mb-4">
+            <a href="{{ review_url }}" id="review-link-btn" target="_blank" data-salesman-id="{{ salesman_id }}" class="btn-primary text-white py-2 px-4 rounded mr-2 hover:bg-green-600">Go to Review Link</a>
+        </div>
+       
+    </div>
+</body>
+</html>
