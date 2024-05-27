@@ -3,25 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Review</title>
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Review Page</title>
     <style>
-        .btn-primary {
-            background-color: #4CAF50;
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
         }
-        .btn-secondary {
-            background-color: #008CBA;
+        .logo img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 40px;
         }
-        .btn-primary:hover, .btn-secondary:hover {
-            opacity: 0.8;
+        .rating {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .rating img {
+            width: 65px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        .stars {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            color: #ffcc00;
+        }
+        .review-count {
+            color: #5B5B5B;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        .review-section {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 50px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        .review-section input {
+            background-color: #ffffff;
+            padding: 10px;
+            border: none;
+            outline: none;
+            border-radius: 50px 0 0 50px;
+            flex-grow: 1;
+        }
+        .review-section button {
+            margin: 3px;
+            padding: 10px 40px;
+            border: none;
+            background-color: #FFBD59;
+            border-radius: 50px;
+            cursor: pointer;
+            color: #5B5B5B;
+            border: 1px solid #5B5B5B;
+        }
+        .review-section button:hover {
+            background-color: #ffb807;
+        }
+        .powered-by {
+            display: flex;
+            align-items: center;
+            margin-top: 40px;
+            color: #888;
+        }
+        .powered-by img {
+            width: 130px;
+            height: auto;
+            filter: grayscale(100%);
+            margin-left: 10px;
+        }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 0.75rem 1.25rem;
+            border: 1px solid #c3e6cb;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+        }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 0.75rem 1.25rem;
+            border: 1px solid #f5c6cb;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
         }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const reviewLinkBtn = document.getElementById("review-link-btn");
+            const reviewLinkBtn = document.getElementById("review-btn");
             const salesmanId = reviewLinkBtn.getAttribute("data-salesman-id");
-
             reviewLinkBtn.addEventListener("click", function() {
                 setTimeout(() => {
                     checkReviewIncrement(salesmanId);
@@ -38,10 +120,16 @@
             })
             .then(response => response.json())
             .then(data => {
-                alert(data.message);
+                const messageContainer = document.createElement('div');
                 if (data.status === 'success') {
+                    messageContainer.classList.add('success-message');
+                    messageContainer.textContent = data.message;
                     document.getElementById('review-count').innerText = data.new_count;
+                } else {
+                    messageContainer.classList.add('error-message');
+                    messageContainer.textContent = data.message;
                 }
+                document.body.appendChild(messageContainer);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -49,13 +137,23 @@
         }
     </script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h1 class="text-2xl font-bold text-center mb-4">Review  for Salesman {{ salesman_id }}</h1>
-        <div class="flex justify-center mb-4">
-            <a href="{{ review_url }}" id="review-link-btn" target="_blank" data-salesman-id="{{ salesman_id }}" class="btn-primary text-white py-2 px-4 rounded mr-2 hover:bg-green-600">Go to Review Link</a>
+<body>
+    <div class="logo">
+        <img src="https://www.tharakansroyaljewellery.com/img/Royal.png" alt="Royal Jewellery Logo">
+    </div>
+    <div class="rating">
+        <img src="https://cdn.freebiesupply.com/logos/thumbs/2x/google-g-2015-logo.png" alt="Google Logo">
+        <div class="stars">
+            ★★★★★ <span class="review-count" id="review-count">(231)</span>
         </div>
-       
+    </div>
+    <div class="review-section">
+        <input type="text" placeholder="SalesmanID" disabled>
+        <button id="review-btn" data-salesman-id="123">Review</button>
+    </div>
+    <div class="powered-by">
+        <span>Powered by</span>
+        <img src="logo.png" alt="Whitetap Logo">
     </div>
 </body>
 </html>
