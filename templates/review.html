@@ -53,6 +53,7 @@
         .review-section input {
             background-color: #ffffff;
             padding: 10px;
+            padding-left: 20px;
             border: none;
             outline: none;
             border-radius: 50px 0 0 50px;
@@ -79,9 +80,11 @@
         }
         .powered-by img {
             width: 130px;
-            height: auto;
-            filter: grayscale(100%);
-            margin-left: 10px;
+    height: auto;
+    filter: grayscale(100%);
+    margin-left: 10px;
+    opacity: 0.5; /* Adjust opacity to ensure it's not too dark */
+    mix-blend-mode: multiply; /* Blend mode to ensure grayscale without turning completely black */
         }
         .success-message {
             background-color: #d4edda;
@@ -104,6 +107,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             const reviewLinkBtn = document.getElementById("review-btn");
             const salesmanId = reviewLinkBtn.getAttribute("data-salesman-id");
+
             reviewLinkBtn.addEventListener("click", function() {
                 setTimeout(() => {
                     checkReviewIncrement(salesmanId);
@@ -139,21 +143,23 @@
 </head>
 <body>
     <div class="logo">
-        <img src="https://www.tharakansroyaljewellery.com/img/Royal.png" alt="Royal Jewellery Logo">
+        <img src="https://play-lh.googleusercontent.com/7InImgvTg4B37JatHbOKYq4MCsPrPZv5bWeR6oJ6yr9blAVMWA3VgCn83KRUHVrqfcc=w240-h480-rw" alt="Royal Jewellery Logo">
     </div>
     <div class="rating">
         <img src="https://cdn.freebiesupply.com/logos/thumbs/2x/google-g-2015-logo.png" alt="Google Logo">
         <div class="stars">
-            ★★★★★ <span class="review-count" id="review-count">(231)</span>
+            ★★★★★ <span class="review-count" id="review-count">({{ review_count }})</span>
         </div>
     </div>
     <div class="review-section">
-        <input type="text" placeholder="SalesmanID" disabled>
-        <button id="review-btn" data-salesman-id="123">Review</button>
+        <input type="text" value="SalesmanID: {{ salesman_id }}" disabled>
+        <a href="{{ review_url }}" id="review-btn" data-salesman-id="{{ salesman_id }}">
+            <button>Review</button>
+        </a>
     </div>
     <div class="powered-by">
         <span>Powered by</span>
-        <img src="logo.png" alt="Whitetap Logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Whitetap Logo">
     </div>
 </body>
 </html>
