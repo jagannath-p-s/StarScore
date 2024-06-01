@@ -1,0 +1,29 @@
+create table
+  public.review_counts (
+    id serial,
+    count integer null,
+    constraint review_counts_pkey primary key (id)
+  ) tablespace pg_default;
+
+  create table
+  public.salesmen (
+    id serial,
+    name text not null,
+    points integer null default 0,
+    constraint salesmen_pkey primary key (id)
+  ) tablespace pg_default;
+
+  CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    useremail VARCHAR(255) UNIQUE NOT NULL,
+    reviewurl TEXT,
+    extractionurl TEXT,
+    logourl TEXT,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+SUPABASE_URL = "https://koakfvpwwskmazwvljio.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtvYWtmdnB3d3NrbWF6d3ZsamlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU4NDM2NDYsImV4cCI6MjAzMTQxOTY0Nn0.Ix64dISA1pwAKdIw39gr5u7vZOAxIMmk1Jh78vADzac"
+
+
