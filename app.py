@@ -5,8 +5,8 @@ import supabase
 
 app = Flask(__name__)
 
-SUPABASE_URL = "https://koakfvpwwskmazwvljio.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtvYWtmdnB3d3NrbWF6d3ZsamlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU4NDM2NDYsImV4cCI6MjAzMTQxOTY0Nn0.Ix64dISA1pwAKdIw39gr5u7vZOAxIMmk1Jh78vADzac"
+SUPABASE_URL = "https://ldkbzfcoewzynxawicxg.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxka2J6ZmNvZXd6eW54YXdpY3hnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU4NjQwMDQsImV4cCI6MjAzMTQ0MDAwNH0.sE_JK5ZbobAOzWKR6osasEVfZPWhVt08NhRf0XgrsmA"
 
 sb = supabase.create_client(SUPABASE_URL, SUPABASE_KEY)
 
@@ -59,8 +59,6 @@ def insert_or_update_review_count(client_id, count):
     except Exception as e:
         print(f"Error: {e}")
 
-        print(f"Error: {e}")
-
 def update_salesman_points(salesman_id):
     try:
         salesmen_table = sb.table('salesmen')
@@ -98,7 +96,7 @@ def app_route(client_id, salesman_id):
         logo_url = client_data['logourl']
         current_review_count = get_current_review_count(client_id)
         if current_review_count is not None:
-            return render_template('review.html', salesman_id=salesman_id, review_count=current_review_count, review_url=review_url, logo_url=logo_url)
+            return render_template('review.html', salesman_id=salesman_id, review_count=current_review_count, review_url=review_url, logo_url=logo_url, client_id=client_id)
         else:
             return "Error fetching review count from database."
     else:
