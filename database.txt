@@ -54,7 +54,45 @@ FOR EACH ROW
 EXECUTE FUNCTION update_salesman_points();
 
 
-SUPABASE_URL = "https://koakfvpwwskmazwvljio.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtvYWtmdnB3d3NrbWF6d3ZsamlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU4NDM2NDYsImV4cCI6MjAzMTQxOTY0Nn0.Ix64dISA1pwAKdIw39gr5u7vZOAxIMmk1Jh78vADzac"
+
+
+
+INSERT INTO public.clients (id, useremail, reviewurl, extractionurl, logourl, password, created_at)
+VALUES (
+    2, 
+    'whitedog@example.com', 
+    'https://search.google.com/local/writereview?placeid=ChIJEUxg2ZLvpzsRZAYNK_VEU5Y', 
+    'https://www.google.com/search?q=white+dog+thrissur&sca_esv=5e03de341bb9f1d9&ei=TJFdZoOkNL6eseMPtPiuiAI&oq=whitedog+thrissur&gs_lp=Egxnd3Mtd2l6LXNlcnAiEXdoaXRlZG9nIHRocmlzc3VyKgIIADIKEAAYgAQYsAMYDTIKEAAYgAQYsAMYDTILEAAYsAMYCBgNGB4yDhAAGIAEGLADGIYDGIoFMgsQABiABBiwAxiiBEihElAAWABwAXgAkAEAmAEAoAEAqgEAuAEByAEAmAIBoAIQmAMAiAYBkAYFkgcBMaAHAA&sclient=gws-wiz-serp', 
+    'https://ldkbzfcoewzynxawicxg.supabase.co/storage/v1/object/sign/whitetap/whitedog.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ3aGl0ZXRhcC93aGl0ZWRvZy5wbmciLCJpYXQiOjE3MTc0MDkyODMsImV4cCI6MTc4MDQ4MTI4M30.iQySHP_8WbYot_UECdN897dNo0D2xhFHQudEX-McTr8&t=2024-06-03T10%3A08%3A03.207Z', 
+    'password', 
+    '2024-06-03 09:05:37.139777'
+);
+
+
+
+INSERT INTO public.salesmen (name, points, client_id, created_at)
+VALUES (
+    'John Doe', 
+    0, 
+    1,  -- Assuming this is linked to the client with id 1
+    NOW()
+);
+
+
+
+
+INSERT INTO public.review_counts (count, client_id)
+VALUES (
+    0,   -- Initial review count is zero
+    1    -- Associating with client_id 1
+);
+
+
+
+
+
+
+SUPABASE_URL = "https://ldkbzfcoewzynxawicxg.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxka2J6ZmNvZXd6eW54YXdpY3hnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU4NjQwMDQsImV4cCI6MjAzMTQ0MDAwNH0.sE_JK5ZbobAOzWKR6osasEVfZPWhVt08NhRf0XgrsmA"
 
 

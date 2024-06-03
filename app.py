@@ -43,7 +43,11 @@ def get_current_review_count(client_id):
         record = review_counts_table.select('count').eq('client_id', client_id).execute()
         if record.data:
             return record.data[0]['count']
-        return None
+        else:
+            review_count = extract_review_count(client_id)
+            if review_count is not None:
+                insert_or_update_review_count(client_id, review_count)
+            return review_count
     except Exception as e:
         print(f"Error: {e}")
         return None
@@ -53,6 +57,8 @@ def insert_or_update_review_count(client_id, count):
         review_counts_table = sb.table('review_counts')
         review_counts_table.upsert({"client_id": client_id, "count": count}, on_conflict='client_id').execute()
     except Exception as e:
+        print(f"Error: {e}")
+
         print(f"Error: {e}")
 
 def update_salesman_points(salesman_id):
