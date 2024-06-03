@@ -1,27 +1,38 @@
-create table
-  public.review_counts (
-    id serial,
-    count integer null,
-    constraint review_counts_pkey primary key (id)
-  ) tablespace pg_default;
+-- Modify salesmen table to include client_id and created_at timestamp
+CREATE TABLE public.salesmen (
+    id serial PRIMARY KEY,
+    name text NOT NULL,
+    points integer DEFAULT 0,
+    client_id integer REFERENCES clients(id),
+    created_at TIMESTAMP DEFAULT NOW()
+) TABLESPACE pg_default;
 
-  create table
-  public.salesmen (
-    id serial,
-    name text not null,
-    points integer null default 0,
-    constraint salesmen_pkey primary key (id)
-  ) tablespace pg_default;
+-- Modify review_counts table to associate with a specific client_id
+CREATE TABLE public.review_counts (
+    id serial PRIMARY KEY,
+    count integer,
+    client_id integer REFERENCES clients(id)
+) TABLESPACE pg_default;
 
-  CREATE TABLE clients (
-    id SERIAL PRIMARY KEY,
+-- Create a new table to store client_id, salesman_id, and a timestamp
+CREATE TABLE public.client_salesman_activity (
+    id serial PRIMARY KEY,
+    client_id integer REFERENCES clients(id),
+    salesman_id integer REFERENCES salesmen(id),
+    activity_timestamp TIMESTAMP DEFAULT NOW()
+) TABLESPACE pg_default;
+
+-- Clients table remains the same
+CREATE TABLE public.clients (
+    id serial PRIMARY KEY,
     useremail VARCHAR(255) UNIQUE NOT NULL,
     reviewurl TEXT,
     extractionurl TEXT,
     logourl TEXT,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
-);
+) TABLESPACE pg_default;
+
 
 SUPABASE_URL = "https://koakfvpwwskmazwvljio.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtvYWtmdnB3d3NrbWF6d3ZsamlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU4NDM2NDYsImV4cCI6MjAzMTQxOTY0Nn0.Ix64dISA1pwAKdIw39gr5u7vZOAxIMmk1Jh78vADzac"
