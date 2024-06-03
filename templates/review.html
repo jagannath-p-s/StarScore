@@ -80,11 +80,11 @@
         }
         .powered-by img {
             width: 130px;
-    height: auto;
-    filter: grayscale(100%);
-    margin-left: 10px;
-    opacity: 0.5; /* Adjust opacity to ensure it's not too dark */
-    mix-blend-mode: multiply; /* Blend mode to ensure grayscale without turning completely black */
+            height: auto;
+            filter: grayscale(100%);
+            margin-left: 10px;
+            opacity: 0.5;
+            mix-blend-mode: multiply;
         }
         .success-message {
             background-color: #d4edda;
@@ -106,17 +106,18 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const reviewLinkBtn = document.getElementById("review-btn");
+            const clientId = reviewLinkBtn.getAttribute("data-client-id");
             const salesmanId = reviewLinkBtn.getAttribute("data-salesman-id");
 
             reviewLinkBtn.addEventListener("click", function() {
                 setTimeout(() => {
-                    checkReviewIncrement(salesmanId);
+                    checkReviewIncrement(clientId, salesmanId);
                 }, 12000);
             });
         });
 
-        function checkReviewIncrement(salesmanId) {
-            fetch(`/check_review_increment/${salesmanId}`, {
+        function checkReviewIncrement(clientId, salesmanId) {
+            fetch(`/check_review_increment/${clientId}/${salesmanId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -128,7 +129,7 @@
                 if (data.status === 'success') {
                     messageContainer.classList.add('success-message');
                     messageContainer.textContent = data.message;
-                    document.getElementById('review-count').innerText = data.new_count;
+                    document.getElementById('review-count').innerText = `(${data.new_count})`;
                 } else {
                     messageContainer.classList.add('error-message');
                     messageContainer.textContent = data.message;
@@ -143,7 +144,7 @@
 </head>
 <body>
     <div class="logo">
-        <img src="https://tharakansroyaljewellery.com/img/Royal.png" alt="Royal Jewellery Logo">
+        <img src="{{ logo_url }}" alt="company Logo">
     </div>
     <div class="rating">
         <img src="https://cdn.freebiesupply.com/logos/thumbs/2x/google-g-2015-logo.png" alt="Google Logo">
@@ -153,7 +154,7 @@
     </div>
     <div class="review-section">
         <input type="text" value="SalesmanID: {{ salesman_id }}" disabled>
-        <a href="{{ review_url }}" id="review-btn" data-salesman-id="{{ salesman_id }}">
+        <a href="{{ review_url }}" id="review-btn" data-client-id="{{ client_id }}" data-salesman-id="{{ salesman_id }}">
             <button>Review</button>
         </a>
     </div>

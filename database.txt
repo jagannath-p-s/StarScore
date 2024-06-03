@@ -1,27 +1,3 @@
--- Modify salesmen table to include client_id and created_at timestamp
-CREATE TABLE public.salesmen (
-    id serial PRIMARY KEY,
-    name text NOT NULL,
-    points integer DEFAULT 0,
-    client_id integer REFERENCES clients(id),
-    created_at TIMESTAMP DEFAULT NOW()
-) TABLESPACE pg_default;
-
--- Modify review_counts table to associate with a specific client_id
-CREATE TABLE public.review_counts (
-    id serial PRIMARY KEY,
-    count integer,
-    client_id integer REFERENCES clients(id)
-) TABLESPACE pg_default;
-
--- Create a new table to store client_id, salesman_id, and a timestamp
-CREATE TABLE public.client_salesman_activity (
-    id serial PRIMARY KEY,
-    client_id integer REFERENCES clients(id),
-    salesman_id integer REFERENCES salesmen(id),
-    activity_timestamp TIMESTAMP DEFAULT NOW()
-) TABLESPACE pg_default;
-
 -- Clients table remains the same
 CREATE TABLE public.clients (
     id serial PRIMARY KEY,
@@ -32,6 +8,35 @@ CREATE TABLE public.clients (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 ) TABLESPACE pg_default;
+
+-- Modify salesmen table to include client_id and created_at timestamp
+CREATE TABLE public.salesmen (
+    id serial PRIMARY KEY,
+    name text NOT NULL,
+    points integer DEFAULT 0,
+    client_id integer REFERENCES clients(id),
+    created_at TIMESTAMP DEFAULT NOW()
+) TABLESPACE pg_default;
+
+
+-- Create a new table to store client_id, salesman_id, and a timestamp
+CREATE TABLE public.client_salesman_activity (
+    id serial PRIMARY KEY,
+    client_id integer REFERENCES clients(id),
+    salesman_id integer REFERENCES salesmen(id),
+    activity_timestamp TIMESTAMP DEFAULT NOW()
+) TABLESPACE pg_default;
+
+
+
+-- Modify review_counts table to associate with a specific client_id
+CREATE TABLE public.review_counts (
+    id serial PRIMARY KEY,
+    count integer,
+    client_id integer REFERENCES clients(id)
+) TABLESPACE pg_default;
+
+
 
 
 SUPABASE_URL = "https://koakfvpwwskmazwvljio.supabase.co"
