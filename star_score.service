@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve StarScore
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/StarScore
+Environment="PATH=/home/ubuntu/StarScore/myenv/bin"
+ExecStart=/home/ubuntu/StarScore/myenv/bin/gunicorn --workers 3 --bind unix:star_score.sock -m 007 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
