@@ -1,15 +1,17 @@
--- Clients table remains the same
-CREATE TABLE public.clients (
-    id serial PRIMARY KEY,
-    useremail VARCHAR(255) UNIQUE NOT NULL,
-    reviewurl TEXT,
-    extractionurl TEXT,
-    logourl TEXT,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
-) TABLESPACE pg_default;
+create table
+  public.clients (
+    id serial,
+    useremail character varying(255) not null,
+    reviewurl text null,
+    extractionurl text null,
+    logourl text null,
+    password character varying(255) not null,
+    created_at timestamp without time zone null default now(),
+    review_count integer null default 0,
+    constraint clients_pkey primary key (id),
+    constraint clients_useremail_key unique (useremail)
+  ) tablespace pg_default;
 
--- Modify salesmen table to include client_id and created_at timestamp
 CREATE TABLE public.salesmen (
     id serial PRIMARY KEY,
     name text NOT NULL,
@@ -18,8 +20,6 @@ CREATE TABLE public.salesmen (
     created_at TIMESTAMP DEFAULT NOW()
 ) TABLESPACE pg_default;
 
-
--- Create a new table to store client_id, salesman_id, and a timestamp
 CREATE TABLE public.client_salesman_activity (
     id serial PRIMARY KEY,
     client_id integer REFERENCES clients(id),
@@ -29,29 +29,7 @@ CREATE TABLE public.client_salesman_activity (
 
 
 
--- Modify review_counts table to associate with a specific client_id
-CREATE TABLE public.review_counts (
-    id serial PRIMARY KEY,
-    count integer,
-    client_id integer REFERENCES clients(id)
-) TABLESPACE pg_default;
 
-
-CREATE OR REPLACE FUNCTION update_salesman_points()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE public.salesmen
-    SET points = points + 1
-    WHERE id = NEW.salesman_id;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-
-CREATE TRIGGER update_salesman_points_trigger
-AFTER INSERT ON public.client_salesman_activity
-FOR EACH ROW
-EXECUTE FUNCTION update_salesman_points();
 
 
 
