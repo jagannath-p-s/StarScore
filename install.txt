@@ -1,5 +1,0 @@
-git clone https://github.com/jagannath-p-s/StarScore.git
-cd StarScore
-sudo cp autoinstall.yaml /etc/cloud/cloud.cfg.d/
-sudo cloud-init clean
-sudo cloud-init init
